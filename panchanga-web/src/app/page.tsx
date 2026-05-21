@@ -1053,19 +1053,7 @@ export default function HomePage() {
             );
           })}
 
-        <footer className="mt-12 border-t border-gray-200 pt-6 pb-8 text-center">
-          <p className="text-sm text-gray-600">
-            Under Development by{' '}
-            <a
-              href="https://www.prabodh.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-gray-900 hover:text-primary-600 underline"
-            >
-              Prabodh Technologies LLP
-            </a>
-          </p>
-        </footer>
+       
       </div>
     </main>
   );
