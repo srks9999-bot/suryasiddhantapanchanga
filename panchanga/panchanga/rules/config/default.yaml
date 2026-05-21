@@ -1,0 +1,76 @@
+# Default Panchanga Rules Configuration
+# 
+# This file defines the default rules and settings for Panchanga calculations.
+# You can customize this file or create new configuration files for different
+# traditions or use cases.
+
+# Calculation tradition
+# Options: surya, drik, lunar
+tradition: surya
+
+# Ayanamsa system for sidereal calculations
+# Options: lahiri, raman, krishnamurti, none
+ayanamsa: lahiri
+
+# Rules for tithi determination
+# Rules are evaluated in priority order (lower number = higher priority)
+# Each rule can make a decision or defer to the next rule
+rules:
+  # Special handling for Purnima (full moon) and Amavasya (new moon)
+  - name: purnima_amavasya
+    enabled: true
+    priority: 5
+    
+  # Primary rule: tithi at sunrise determines the day's tithi
+  - name: sunrise_based
+    enabled: true
+    priority: 10
+    
+  # Handle ksaya (skipped) tithi - when a tithi doesn't span any sunrise
+  - name: ksaya_handling
+    enabled: true
+    priority: 15
+    params:
+      merge_with_previous: true  # Merge skipped tithi with previous
+      merge_with_next: false
+      report_as_ksaya: true      # Mark the day as having ksaya tithi
+      
+  # Handle vriddhi (extended) tithi - when a tithi spans two sunrises
+  - name: vriddhi_handling
+    enabled: true
+    priority: 16
+    params:
+      assign_to_first_day: false  # Assign to second day by default
+      assign_to_both: false       # Don't assign to both days
+      
+  # Optional: Span-based rule (disabled by default)
+  # Requires tithi to span a minimum portion of the day
+  - name: span_based
+    enabled: false
+    priority: 20
+    params:
+      min_span_hours: 3.0
+      min_span_fraction: 0.0
+
+# Lunar tradition options (only used when tradition is 'lunar')
+lunar_options:
+  # Month ending convention
+  # amanta: Month ends on Amavasya (new moon) - South/West India
+  # purnimanta: Month ends on Purnima (full moon) - North India
+  month_ending: amanta
+  
+  # How to determine adhika masa (intercalary month)
+  adhika_masa_rule: solar_month
+
+# Custom rules can be defined here
+# These allow extending the system without modifying code
+custom_rules: []
+  # Example:
+  # - name: festival_specific
+  #   class: panchanga.rules.custom.FestivalRule
+  #   params:
+  #     festival: ekadashi
+  #     special_handling: true
+
+# Enable rule evaluation tracing for debugging
+trace_enabled: false

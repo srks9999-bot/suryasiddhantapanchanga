@@ -1,0 +1,7 @@
+# Swiss Ephemeris data files
+*.se1
+*.se2
+*.se3
+
+# Keep this .gitignore
+!.gitignore
